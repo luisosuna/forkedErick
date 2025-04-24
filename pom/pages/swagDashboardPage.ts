@@ -6,6 +6,7 @@ import { SwagAbilities } from '../abilities/swagAbilities';
 import { ProductSortingOptions } from '../../utilities/productSortingOptions';
 import { SortingOptions } from '../../utilities/sortingOptions';
 import { CustomAsserts } from '../../asserts/customAsserts';
+import proxymise from "proxymise";
 
 export class SwagDashboardPage extends BasePage implements IBasePage {
 

@@ -27,6 +27,7 @@
   "dependencies": {
     "chalk": "^5.4.1",
     "dotenv": "^16.4.7",
+    "proxymise": "^1.0.2",
     "zod": "^3.24.2"
   }
 }
