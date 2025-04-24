@@ -12,39 +12,12 @@ export abstract class BasePage {
     protected SwagLoginElements : SwagLoginElements;
     protected SwagDashboardElements : SwagDashboardElements;
     protected page: Page;
-
-    promise: Promise<this>;
     
     constructor(page : Page) {
         this.page = page;
         this.FacebookElements = new FacebookElements();
         this.SwagLoginElements = new SwagLoginElements();
         this.SwagDashboardElements = new SwagDashboardElements();
-        this.promise = Promise.resolve(this); // Initialize the promise with a resolved value
-    }
-
-    chain(action) {
-        this.promise = this.promise.then(action).catch(error => {
-            //this.errors.push(error);
-            return this
-        });
-        return this;
-    }
-
-    //------------------------------------ CHAINABLE SAMPLE INTERACTIONS ------------------------------------
-
-    public method1() {
-        return this.chain(async () => {
-            await this.info("Executing action 1");
-            await this.info("Executing action 2");
-        });
-    }
-
-    public method2() {
-        return this.chain(async () => {
-            await this.info("Executing action 3");
-            await this.info("Executing action 4");
-        });
     }
 
     //------------------------------------ LOGGING INTERACTIONS ------------------------------------
@@ -67,7 +40,12 @@ export abstract class BasePage {
 
     //------------------------------------ WEB INTERACTIONS ------------------------------------
 
-    protected async click(locator : string, elementDescription : string = "") : Promise<void> {        
+    protected async goToURL(url : string) : Promise<void> {
+        this.info("Navigating to URL: " + url);
+        await this.page.goto(url);        
+    }
+
+    protected async click(locator : string, elementDescription : string = "") : Promise<void> {
         test.info().annotations.push({ type : "Clicking '" +  elementDescription + "' element"}); //Prints into PLAYWRIGHT test reporter (but as annotation, not exactly on the corresponding step)
         await this.page.click(locator);
         await this.info("Clicked '" +  elementDescription + "' element"); //Prints just into IDE console

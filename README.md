@@ -42,11 +42,16 @@ Before running the tests, ensure you complete these two important steps:
    $Env:TEST_ENV
    ```   
 
-4. Install proxymise dependency
+4. Install TypeScript
+   ```bash
+   npm install -g typescript
+   ```  
+
+5. Install proxymise dependency
    ```bash
    npm i proxymise
    ```   
-
+   
 ## Ways to Run Tests
 
 ### First: 

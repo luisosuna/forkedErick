@@ -1,12 +1,12 @@
 import { test } from '@playwright/test';
-import { SwagLoginPage } from '../pom/pages/swagLoginPage';
-import { SwagDashboardPage } from '../pom/pages/swagDashboardPage';
 import { ProductSortingOptions } from '../utilities/productSortingOptions';
 import { CustomAsserts } from '../asserts/customAsserts';
 import { TestUtilities } from '../utilities/testUtilities';
+import SwagLoginPage from '../pom/pages/swagLoginPage';
+import SwagDashboardPage from '../pom/pages/swagDashboardPage';
 
-var swagLoginPage: SwagLoginPage;
-var swagDashboardPage: SwagDashboardPage;
+var swagLoginPage;
+var swagDashboardPage;
 
 test.beforeAll(async () => {
   /*
@@ -17,9 +17,9 @@ test.beforeAll(async () => {
 });
 
 test.beforeEach(async ({ page }) => {
-  //Initialize pages
-  swagLoginPage = new SwagLoginPage(page);
-  swagDashboardPage = new SwagDashboardPage(page);
+  //Initialize pages with static method in order to use proxymise and chain calls
+  swagLoginPage = SwagLoginPage.open(page); // new SwagLoginPage(page);
+  swagDashboardPage = SwagDashboardPage.open(page); // new SwagDashboardPage(page);
 
   //Define screen size
   await page.setViewportSize({ width: 1920, height: 1080 });
@@ -33,29 +33,20 @@ test.afterAll(async () => {
   // Runs after each run
 });
 
-test('Method chaining sample', async ({ page }) => {
-  await swagLoginPage
-          .method1()
-          .method2();
-});
-
 test('Add products to cart ONE BY ONE', async ({ page }) => {
   await swagLoginPage.loginWithCredentials("standard_user", "secret_sauce");
 
-  await swagDashboardPage.addProductToCart("Sauce Labs Bike Light");
-  await swagDashboardPage.addProductToCart("Sauce Labs Fleece Jacket");
-
-  await swagDashboardPage.sortProducts(ProductSortingOptions.NameAscending);
-  await swagDashboardPage.verifyCorrectProductsSorting(ProductSortingOptions.NameAscending);
-
-  await swagDashboardPage.sortProducts(ProductSortingOptions.PriceAscending);
-  await swagDashboardPage.verifyCorrectProductsSorting(ProductSortingOptions.PriceAscending);
-
-  await swagDashboardPage.sortProducts(ProductSortingOptions.NameDescending);
-  await swagDashboardPage.verifyCorrectProductsSorting(ProductSortingOptions.NameDescending);
-
-  await swagDashboardPage.sortProducts(ProductSortingOptions.PriceDescending);
-  await swagDashboardPage.verifyCorrectProductsSorting(ProductSortingOptions.PriceDescending);
+  await swagDashboardPage
+            .addProductToCart("Sauce Labs Bike Light")
+            .addProductToCart("Sauce Labs Fleece Jacket")
+            .sortProducts(ProductSortingOptions.NameAscending)
+            .verifyCorrectProductsSorting(ProductSortingOptions.NameAscending)
+            .sortProducts(ProductSortingOptions.PriceAscending)
+            .verifyCorrectProductsSorting(ProductSortingOptions.PriceAscending)
+            .sortProducts(ProductSortingOptions.NameDescending)
+            .verifyCorrectProductsSorting(ProductSortingOptions.NameDescending)
+            .sortProducts(ProductSortingOptions.PriceDescending)
+            .verifyCorrectProductsSorting(ProductSortingOptions.PriceDescending);
 });
 
 test('Add products to cart ALL AT ONCE', async ({ page }) => {
@@ -63,9 +54,10 @@ test('Add products to cart ALL AT ONCE', async ({ page }) => {
 
   let list : string[] = [ "Sauce Labs Bike Light", "Sauce Labs Fleece Jacket"];
 
-  await swagDashboardPage.addProductsToCart(list);
-  await swagDashboardPage.sortProducts(ProductSortingOptions.PriceAscending)
-  await swagDashboardPage.sortProducts(ProductSortingOptions.NameAscending);
-  await swagDashboardPage.sortProducts(ProductSortingOptions.PriceDescending);
-  await swagDashboardPage.sortProducts(ProductSortingOptions.PriceDescending);
+  await swagDashboardPage
+            .addProductsToCart(list)
+            .sortProducts(ProductSortingOptions.PriceAscending)
+            .sortProducts(ProductSortingOptions.NameAscending)
+            .sortProducts(ProductSortingOptions.PriceDescending)
+            .sortProducts(ProductSortingOptions.PriceDescending);
 });

@@ -17,6 +17,11 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
         this._swagAbilities = new SwagAbilities(); 
     }
 
+    // This method is static now. Necessary for proxymise correct work
+    public static async open(page: Page): Promise<SwagDashboardPage> {
+        return new SwagDashboardPage(page);
+    }
+
     //*********************************************** INTERFACE METHODS ***********************************************
     async goTo() : Promise<void> {
         throw new Error("Method not implemented yet");
@@ -25,7 +30,7 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
 
     //************************************************ PUBLIC METHODS ************************************************
 
-    public async addProductToCart(wantedProduct : string): Promise<this> {
+    public async addProductToCart(wantedProduct : string): Promise<SwagDashboardPage> {
         
         this.methodStart("addProductToCart", wantedProduct);
 
@@ -52,7 +57,7 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
         return this;
     }
 
-    public async addProductsToCart(listOfProducts : string[]): Promise<this> {
+    public async addProductsToCart(listOfProducts : string[]): Promise<SwagDashboardPage> {
         
         const doDummyThings = false;
 
@@ -88,7 +93,7 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
         return this;
     }
 
-    public async sortProducts(orderBy : ProductSortingOptions) : Promise<this> {
+    public async sortProducts(orderBy : ProductSortingOptions) : Promise<SwagDashboardPage> {
         let valueAsStr : string = "";
         this.methodStart("sortProducts", orderBy.toString());
 
@@ -110,7 +115,7 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
         return this;
     }
 
-    public async verifyCorrectProductsSorting(orderBy : ProductSortingOptions) : Promise<this> {
+    public async verifyCorrectProductsSorting(orderBy : ProductSortingOptions) : Promise<SwagDashboardPage> {
         let referenceLocator : string = "";
         var option;
         this.methodStart("verifyCorrectProductsSorting", orderBy.toString());
@@ -143,3 +148,5 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
 
     //************************************************ PRIVATE METHODS ************************************************    
 }
+
+export default proxymise(SwagDashboardPage);

@@ -2,6 +2,7 @@ import { Page } from '@playwright/test';
 import { BasePage } from './parent/basePage';
 import { IBasePage } from './parent/iBasePage';
 import { SwagAbilities } from '../abilities/swagAbilities';
+import proxymise from "proxymise";
 
 export class SwagLoginPage extends BasePage implements IBasePage {
 
@@ -12,14 +13,20 @@ export class SwagLoginPage extends BasePage implements IBasePage {
         this._swagAbilities = new SwagAbilities(); 
     }
 
+    // This method is static now. Necessary for proxymise correct work
+    public static async open(page: Page): Promise<SwagLoginPage> {
+        return new SwagLoginPage(page);
+    }
+
     //*********************************************** INTERFACE METHODS ***********************************************
     async goTo() : Promise<void> {
-        await this.page.goto(this._swagAbilities.getURL());
+        let url: string = this._swagAbilities.getURL();
+        await this.goToURL(url);
     }
 
     //************************************************ PUBLIC METHODS ************************************************
 
-    public async loginWithCredentials(username : string, password : string): Promise<this> {
+    public async loginWithCredentials(username : string, password : string): Promise<SwagLoginPage> {
         
         this.methodStart("loginWithCredentials", username);
 
@@ -46,6 +53,6 @@ export class SwagLoginPage extends BasePage implements IBasePage {
     }
 
     //************************************************ PRIVATE METHODS ************************************************
-
-    
 }
+
+export default proxymise(SwagLoginPage);
