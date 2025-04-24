@@ -14,7 +14,7 @@ export class SwagLoginPage extends BasePage implements IBasePage {
     }
 
     // This method is static now. Necessary for proxymise correct work
-    public static async open(page: Page): Promise<SwagLoginPage> {
+    public static async initPage(page: Page): Promise<SwagLoginPage> {
         return new SwagLoginPage(page);
     }
 

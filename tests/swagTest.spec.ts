@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import { ProductSortingOptions } from '../utilities/productSortingOptions';
 import { CustomAsserts } from '../asserts/customAsserts';
 import { TestUtilities } from '../utilities/testUtilities';
-import SwagLoginPage from '../pom/pages/swagLoginPage';
+import SwagLoginPage from '../pom/pages/swagLoginPage'; // To use proymise import has to be without {}
 import SwagDashboardPage from '../pom/pages/swagDashboardPage';
 
 var swagLoginPage;
@@ -18,8 +18,8 @@ test.beforeAll(async () => {
 
 test.beforeEach(async ({ page }) => {
   //Initialize pages with static method in order to use proxymise and chain calls
-  swagLoginPage = SwagLoginPage.open(page); // new SwagLoginPage(page);
-  swagDashboardPage = SwagDashboardPage.open(page); // new SwagDashboardPage(page);
+  swagLoginPage = SwagLoginPage.initPage(page); // new SwagLoginPage(page); // old implementation
+  swagDashboardPage = SwagDashboardPage.initPage(page);
 
   //Define screen size
   await page.setViewportSize({ width: 1920, height: 1080 });
