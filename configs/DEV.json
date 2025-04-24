@@ -1,0 +1,13 @@
+{
+    "baseURL": "https://dev.ejimenez.com",
+    "erickVar" : "eins",
+    "erickVarString" : "stringDev",
+    "erickVarInt" : 1,
+    "erickVarFloat" : 1.1,
+    "erickVarBoolean" : true,
+    "myCredentials": {
+        "myUsername": "devUser",
+        "myPassword": "devPassword"
+    }
+  }
+  

@@ -1,0 +1,64 @@
+GET https://rahulshettyacademy.com/maps/api/place/get/json?key=qaclick123&place_id=32019d999326cbb97ab68cd634c5f8b2
+
+HTTP/1.1 200  - OK
+date: Mon, 07 Apr 2025 18:55:12 GMT
+server: Apache/2.4.52 (Ubuntu)
+access-control-allow-origin: *
+access-control-allow-methods: POST
+access-control-max-age: 3600
+access-control-allow-headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With
+content-length: 285
+connection: close
+content-type: application/json;charset=UTF-8
+###
+POST https://rahulshettyacademy.com/maps/api/place/add/json?key=qaclick123
+Content-Type: application/json
+
+{
+    "location": {
+        "lat": -38.383494,
+        "lng": 33.427362
+    },
+    "accuracy": 5,
+    "name": "Yac Coffe",
+    "phone_number": "(52) 33 9025 1990",
+    "address": "Yac 2025",
+    "types": [
+        "yac",
+        "rest",
+        "http-client"
+    ],
+    "website": "https://httpyac.github.io/guide/",
+    "language": "United States-SP"
+}
+
+HTTP/1.1 200  - OK
+date: Mon, 07 Apr 2025 18:47:29 GMT
+server: Apache/2.4.52 (Ubuntu)
+access-control-allow-origin: *
+access-control-allow-methods: POST
+access-control-max-age: 3600
+access-control-allow-headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With
+content-length: 194
+connection: close
+content-type: application/json;charset=UTF-8
+###
+PUT https://rahulshettyacademy.com/maps/api/place/update/json
+Content-Type: application/json
+
+{
+    "place_id": "32019d999326cbb97ab68cd634c5f8b2",
+    "address": "2025 Yac Updated with ERICK PUT",
+    "key": "qaclick123"
+}
+
+HTTP/1.1 200  - OK
+date: Mon, 07 Apr 2025 18:55:07 GMT
+server: Apache/2.4.52 (Ubuntu)
+access-control-allow-origin: *
+access-control-allow-methods: POST
+access-control-max-age: 3600
+access-control-allow-headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With
+content-length: 38
+connection: close
+content-type: application/json;charset=UTF-8

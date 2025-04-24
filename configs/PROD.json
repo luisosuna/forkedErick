@@ -1,0 +1,12 @@
+{
+    "baseURL": "https://ejimenez.com",
+    "erickVar" : "vier",
+    "erickVarString" : "stringProduction",
+    "erickVarInt" : 4,
+    "erickVarFloat" : 4.4,
+    "erickVarBoolean" : false,
+    "myCredentials": {
+        "myUsername": "prodUser",
+        "myPassword": "prodPassword"
+    }
+  }

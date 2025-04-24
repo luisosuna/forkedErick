@@ -1,0 +1,12 @@
+{
+    "baseURL": "https://stg.ejimenez.com",
+    "erickVar" : "drei",
+    "erickVarString" : "stringStaging",
+    "erickVarInt" : 3,
+    "erickVarFloat" : 3.3,
+    "erickVarBoolean" : true,
+    "myCredentials": {
+        "myUsername": "stgUser",
+        "myPassword": "stgPassword"
+    }
+  }

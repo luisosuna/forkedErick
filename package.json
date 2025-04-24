@@ -1,0 +1,32 @@
+{
+  "name": "playwrighterick",
+  "version": "1.0.0",
+  "description": "PlayWrightErick",
+  "main": "index.js",
+  "scripts": {
+    "clean:allure": "rimraf allure-results",
+    "testErick": "npm run clean:allure && playwright test",
+    "testErickHead": "npm run clean:allure && playwright test --headed",
+    "testFacebook": "npm run clean:allure && npx playwright test facebookTest.spec.ts",
+    "testSwag": "npm run clean:allure && npx playwright test swagTest.spec.ts",
+    "testMaps": "npm run clean:allure && npx playwright test mapsTest.spec.ts",
+    "testMapsSequential": "npm run clean:allure && npx playwright test mapsTestSequential.spec.ts",
+    "testUnitTest": "npm run clean:allure && npx playwright test unitTest.spec.ts",
+    "reportGenerate": "npx allure generate ./allure-results",
+    "reportView": "npx allure open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.7.0",
+    "allure-playwright": "^3.2.1",
+    "rimraf": "^6.0.1"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.2"
+  }
+}

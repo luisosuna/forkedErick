@@ -1,0 +1,73 @@
+Playwright tiene un trace viewer donde te loguea cada step con la imágen?
+ChatGPT said:
+Sí, Playwright tiene una herramienta llamada Trace Viewer, que te permite visualizar cada paso de una prueba junto con capturas de pantalla y detalles de la ejecución.
+
+Cuando habilitas el tracing, Playwright guarda un archivo .zip con el registro de la ejecución, incluyendo:
+✅ Cada acción ejecutada
+✅ Capturas de pantalla automáticas en cada paso
+✅ Logs de consola y red
+✅ Snapshots del DOM
+
+🚀 ¿Cómo activar el tracing en Playwright?
+Para habilitarlo, puedes usar trace: 'on' o configurarlo según tus necesidades:
+
+js
+Copy
+Edit
+const { test } = require('@playwright/test');
+
+test.use({ trace: 'on' }); // Guarda el trace de cada test
+
+test('mi prueba con trace', async ({ page }) => {
+  await page.goto('https://example.com');
+  await page.click('button#login');
+});
+También puedes habilitarlo solo en caso de fallo:
+
+js
+Copy
+Edit
+test.use({ trace: 'retain-on-failure' }); // Guarda el trace solo si la prueba falla
+📂 Cómo ver el trace
+Ejecuta tus tests con tracing habilitado.
+Genera el trace y guárdalo con:
+sh
+Copy
+Edit
+npx playwright show-trace trace.zip
+Esto abrirá una UI interactiva donde puedes inspeccionar cada paso con capturas de pantalla.
+
+🔍 ¿Necesitas más detalles o ejemplos específicos?
+
+
+
+
+
+
+
+You said:
+puedo configurarlo globalmente o tiene que ser en cada test?
+ChatGPT said:
+Sí, puedes configurar el tracing globalmente en Playwright para que se aplique a todos los tests sin necesidad de definirlo en cada uno.
+
+📌 Configuración Global en playwright.config.ts
+En lugar de agregar trace: 'on' en cada test, puedes definirlo en el archivo de configuración de Playwright:
+
+ts
+Copy
+Edit
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  use: {
+    trace: 'on', // Opciones: 'on', 'off', 'retain-on-failure', 'on-first-retry'
+  },
+});
+Con esta configuración, todos los tests usarán tracing automáticamente.
+
+🎯 Opciones de trace
+'on' → Guarda un trace para cada prueba.
+'off' → Desactiva el trace.
+'retain-on-failure' → Solo guarda el trace si la prueba falla (recomendado para debugging).
+'on-first-retry' → Solo guarda el trace si la prueba falla y se reintenta.
+🔍 Si necesitas más personalización, dime cómo usas Playwright y te ayudo con una mejor configuración. 🚀

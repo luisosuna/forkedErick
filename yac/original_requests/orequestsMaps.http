@@ -1,0 +1,31 @@
+GET https://rahulshettyacademy.com/maps/api/place/get/json?key=qaclick123&place_id=171a45ca4e9cb14a78acbcb6d61ac88c
+
+POST https://rahulshettyacademy.com/maps/api/place/add/json?key=qaclick123
+Content-Type: application/json
+
+{
+    "location": {
+        "lat": -38.383494,
+        "lng": 33.427362
+    },
+    "accuracy": 5,
+    "name": "Yac Coffe",
+    "phone_number": "(52) 33 9025 1990",
+    "address": "Yac 2025",
+    "types": [
+        "yac",
+        "rest",
+        "http-client"
+    ],
+    "website": "https://httpyac.github.io/guide/",
+    "language": "United States-SP"
+}
+
+PUT https://rahulshettyacademy.com/maps/api/place/update/json
+Content-Type: application/json
+
+{
+    "place_id": "37eedad2425c7f8e25ad37537f3665fb",
+    "address": "2025 Yac Updated with PUT",
+    "key": "qaclick123"
+}

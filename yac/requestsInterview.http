@@ -1,0 +1,18 @@
+GET https://fakestoreapi.com/products?limit=2
+
+HTTP/1.1 200  - OK
+date: Mon, 07 Apr 2025 19:00:36 GMT
+content-type: application/json; charset=utf-8
+transfer-encoding: chunked
+connection: close
+access-control-allow-origin: *
+etag: W/"3a8-XXDRXsgQGirCe7rj1LTPgm93EOE"
+x-powered-by: Express
+cf-cache-status: DYNAMIC
+report-to: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=oboggyB9POZWBV7RtrH8C8Ckq6xBbFXyN1ksY%2B%2Bn5dd6PCQgoTENH8sxiRtdfDF93BTD%2FhQYjtT1d3uIl6HVI%2BE8Xwp4IKetUd85GtR79YpxVOsUH5FrS3ewzy2chctRZh7b"}],"group":"cf-nel","max_age":604800}
+nel: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+server: cloudflare
+cf-ray: 92cbc4cc694767c5-DFW
+content-encoding: br
+alt-svc: h3=":443"; ma=86400
+server-timing: cfL4;desc="?proto=TCP&rtt=37808&min_rtt=36802&rtt_var=15814&sent=3&recv=4&lost=0&retrans=0&sent_bytes=203&recv_bytes=750&delivery_rate=31478&cwnd=250&unsent_bytes=0&cid=48469c6dfe360137&ts=186&x=0"

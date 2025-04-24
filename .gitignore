@@ -1,0 +1,11 @@
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/tests/CSharpTests/bin/
+/tests/CSharpTests/obj/
+test-results-ej.json
+/allure-report/
+/allure-results/
+/.allure/
