@@ -1,4 +1,4 @@
-# PlayWrightErick
+# PlayWrightProxymise
 Web automation with the Playwright tool + TypeScript.
 
 [Official Introduction to Playwright](https://playwright.dev/docs/intro)  
@@ -6,9 +6,10 @@ Web automation with the Playwright tool + TypeScript.
 - [Playwright Documentation](https://playwright.dev/docs/intro)
 - [Allure Framework](https://docs.qameta.io/allure/)
 - [rimraf on npm](https://www.npmjs.com/package/rimraf)
+- [Proxymise to chain async calls](https://dev.to/10-minutes-qa-story/fluent-api-pattern-implementation-with-playwright-and-javascripttypescript-2lk1)
 
 ## Table of Contents
-- [Introduction](#playwrighterick)
+- [Introduction](#playwrightproxymise)
 - [Prerequisites](#prerequisites)
 - [Ways to Run Tests](#ways-to-run-tests)
 - [Debug Mode](#debug-mode)
@@ -39,6 +40,11 @@ Before running the tests, ensure you complete these two important steps:
 3. Print environment (Windows) variable for defining test environment
    ```bash
    $Env:TEST_ENV
+   ```   
+
+4. Install proxymise dependency
+   ```bash
+   npm i proxymise
    ```   
 
 ## Ways to Run Tests
