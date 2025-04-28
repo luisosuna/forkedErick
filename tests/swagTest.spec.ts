@@ -7,7 +7,6 @@ import SwagDashboardPage from '../pom/pages/swagDashboardPage';
 
 var swagLoginPage;
 var swagDashboardPage;
-var browser;
 
 // Runs before each run
 test.beforeAll(async ({ browser }) => {
@@ -18,12 +17,12 @@ test.beforeAll(async ({ browser }) => {
     */
     //Initialize pages with static method in order to use proxymise and chain calls
     let context = await browser.newContext(); // Create multiple contexts when dealing with different web portals
-    let pageTempLocal = await context.newPage(); // Create multiple pages when dealing with different tabs
+    let page = await context.newPage(); // Create multiple pages when dealing with different tabs
 
-    await pageTempLocal.setViewportSize({ width: 1920, height: 1080 });
+    await page.setViewportSize({ width: 1920, height: 1080 });
 
-    swagLoginPage = SwagLoginPage.initPage(pageTempLocal); // new SwagLoginPage(page); // old implementation without (browser >> context >> page)
-    swagDashboardPage = SwagDashboardPage.initPage(pageTempLocal);
+    swagLoginPage = SwagLoginPage.initPage(page); // new SwagLoginPage(page); // old implementation without (browser >> context >> page)
+    swagDashboardPage = SwagDashboardPage.initPage(page);
 
     /*
     browser >> context >> page
