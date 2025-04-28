@@ -7,44 +7,30 @@ import SwagDashboardPage from '../pom/pages/swagDashboardPage';
 
 var swagLoginPage;
 var swagDashboardPage;
-var browser;
 
-// Runs before each run
-test.beforeAll(async ({ browser }) => {
-    /*
-    Error: "context" and "page" fixtures are not supported in "beforeAll" since they are created on a per-test basis.
-    If you would like to reuse a single page between tests, create context manually with browser.newContext(). See https://aka.ms/playwright/reuse-page for details.
-    If you would like to configure your page before each test, do that in beforeEach hook instead.
-    */
-    //Initialize pages with static method in order to use proxymise and chain calls
-    let context = await browser.newContext(); // Create multiple contexts when dealing with different web portals
-    let pageTempLocal = await context.newPage(); // Create multiple pages when dealing with different tabs
-
-    await pageTempLocal.setViewportSize({ width: 1920, height: 1080 });
-
-    swagLoginPage = SwagLoginPage.initPage(pageTempLocal); // new SwagLoginPage(page); // old implementation without (browser >> context >> page)
-    swagDashboardPage = SwagDashboardPage.initPage(pageTempLocal);
-
-    /*
-    browser >> context >> page
-
-    So in simple words:
-    •	browser = The app.
-    •	context = A fresh user session.
-    •	page = A tab you control.
-    */
+test.beforeAll(async () => {
+  /*
+  Error: "context" and "page" fixtures are not supported in "beforeAll" since they are created on a per-test basis.
+  If you would like to reuse a single page between tests, create context manually with browser.newContext(). See https://aka.ms/playwright/reuse-page for details.
+  If you would like to configure your page before each test, do that in beforeEach hook instead.
+  */
 });
 
-// Runs before each test
-test.beforeEach(async () => {  
+test.beforeEach(async ({ page }) => {
+  //Initialize pages with static method in order to use proxymise and chain calls
+  swagLoginPage = SwagLoginPage.initPage(page); // new SwagLoginPage(page); // old implementation
+  swagDashboardPage = SwagDashboardPage.initPage(page);
+
+  //Define screen size
+  await page.setViewportSize({ width: 1920, height: 1080 });
 });
 
-// Runs after each test
-test.afterEach(async () => {  
+test.afterEach(async ({ page }) => {
+  // Runs after each test
 });
 
-// Runs after each run
-test.afterAll(async () => {  
+test.afterAll(async () => {
+  // Runs after each run
 });
 
 test('Add products to cart ONE BY ONE', async ({ page }) => {

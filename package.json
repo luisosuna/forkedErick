@@ -9,6 +9,7 @@
     "testErickHead": "npm run clean:allure && playwright test --headed",
     "testFacebook": "npm run clean:allure && npx playwright test facebookTest.spec.ts",
     "testSwag": "npm run clean:allure && npx playwright test swagTest.spec.ts",
+    "testSwagSimpler": "npm run clean:allure && npx playwright test swagTestSimpler.spec.ts",
     "testMaps": "npm run clean:allure && npx playwright test mapsTest.spec.ts",
     "testMapsSequential": "npm run clean:allure && npx playwright test mapsTestSequential.spec.ts",
     "testUnitTest": "npm run clean:allure && npx playwright test unitTest.spec.ts",
