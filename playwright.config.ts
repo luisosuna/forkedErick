@@ -44,7 +44,7 @@ export const config: ProjectTestConfig = {
     ['list'],
     ['json', {  outputFile: 'test-results-ej.json' }],
     ['html', { outputFolder: 'playwright-report' }],
-    ['allure-playwright', { outputDir: 'allure-results' }],
+    //['allure-playwright', { outputDir: 'allure-results' }],
     [process.env.CI ? 'dot' : 'html', { open: 'always' }]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
