@@ -31,39 +31,39 @@ export class CustomAsserts {
 
     //----------------------------------------- BOUNDARY TESTING -----------------------------------------
 
-    public static assertNumberGreaterThanOrEqual(value1: number, value2: number, message: string = ""): void {
+    public static assertNumberGreaterThanOrEqual(valueBigger: number, valueSmaller: number, message: string = ""): void {
         try {
-            expect(value1).toBeGreaterThanOrEqual(value2);
-            this.info("Assert PASSED! [" + value1 + "] is greater or equal to [" + value2 + "] " + message);
+            expect(valueBigger).toBeGreaterThanOrEqual(valueSmaller);
+            this.info("Assert PASSED! [" + valueBigger + "] is greater or equal to [" + valueSmaller + "] " + message);
         } catch (error) {
-            this.throwError("assertNumberGreaterThanOrEqual", error, message, "[" + value1 + "] should be greater or equal to [" + value2 + "]");
+            this.throwError("assertNumberGreaterThanOrEqual", error, message, "[" + valueBigger + "] should be greater or equal to [" + valueSmaller + "]");
         }
     }
 
-    public static assertNumberLessThanOrEqual(value1: number, value2: number, message: string = ""): void {
+    public static assertNumberLessThanOrEqual(valueSmaller: number, valueBigger: number, message: string = ""): void {
         try {
-            expect(value1).toBeLessThanOrEqual(value2);
-            this.info("Assert PASSED! [" + value1 + "] is less or equal to [" + value2 + "] " + message);
+            expect(valueSmaller).toBeLessThanOrEqual(valueBigger);
+            this.info("Assert PASSED! [" + valueSmaller + "] is less or equal to [" + valueBigger + "] " + message);
         } catch (error) {
-            this.throwError("assertNumberLessThanOrEqual", error, message, "[" + value1 + "] should be less or equal to [" + value2 + "]");
+            this.throwError("assertNumberLessThanOrEqual", error, message, "[" + valueSmaller + "] should be less or equal to [" + valueBigger + "]");
         }
     }
 
-    public static assertTextGreaterThanOrEqual(string1: string, string2: string, message: string = ""): void {
+    public static assertTextGreaterThanOrEqual(stringZ: string, stringA: string, message: string = ""): void {
         try {
-            expect(string2.localeCompare(string1) <= 0).toBe(true);
-            this.info("Assert PASSED! [" + string1 + "] is greater or equal to [" + string2 + "] " + message);
+            expect(stringA.localeCompare(stringZ) <= 0).toBe(true); // Number is negative when LEFT comes BEFORE RIGHT (L=Apple, R=Orange)
+            this.info("Assert PASSED! [" + stringZ + "] is greater or equal to [" + stringA + "] " + message);
         } catch (error) {
-            this.throwError("assertTextGreaterThanOrEqual", error, message, "[" + string1 + "] should be greater or equal to [" + string2 + "]");
+            this.throwError("assertTextGreaterThanOrEqual", error, message, "[" + stringZ + "] should be greater or equal to [" + stringA + "]");
         }
     }
 
-    public static assertTextLessThanOrEqual(string1: string, string2: string, message: string = ""): void {
+    public static assertTextLessThanOrEqual(stringA: string, stringZ: string, message: string = ""): void {
         try {
-            expect(string1.localeCompare(string2) <= 0).toBe(true);
-            this.info("Assert PASSED! [" + string1 + "] is less or equal to [" + string2 + "] " + message);
+            expect(stringA.localeCompare(stringZ) <= 0).toBe(true); // Number is negative when LEFT comes BEFORE RIGHT (L=Apple, R=Orange)
+            this.info("Assert PASSED! [" + stringA + "] is less or equal to [" + stringZ + "] " + message);
         } catch (error) {
-            this.throwError("assertTextLessThanOrEqual", error, message, "[" + string1 + "] should be less or equal to [" + string2 + "]");
+            this.throwError("assertTextLessThanOrEqual", error, message, "[" + stringA + "] should be less or equal to [" + stringZ + "]");
         }
     }
 
