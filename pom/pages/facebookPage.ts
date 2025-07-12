@@ -39,8 +39,8 @@ export class FacebookPage extends BasePage implements IBasePage {
         await this.click(this.FacebookElements.ButtonCreateNewAccount, "Create New Account [Button]");
 
         //Enter first name and last name
-        await this.enterText(this.FacebookElements.InputFirstName, firstName, "First Name [Input]");
-        await this.enterText(this.FacebookElements.InputLastName, lastName, "Last Name [Input]");
+        await this.enterText(this.FacebookElements.InputFirstName, "First Name [Input]", firstName);
+        await this.enterText(this.FacebookElements.InputLastName, "Last Name [Input]", lastName);
 
         return this;
     }
@@ -80,8 +80,8 @@ export class FacebookPage extends BasePage implements IBasePage {
                 break;
         }
 
-        await this.enterText(this.FacebookElements.InputEmailOrPhone, email, "Email [Input]");
-        await this.enterText(this.FacebookElements.InputPassword, genericPassword, "Password [Input]");
+        await this.enterText(this.FacebookElements.InputEmailOrPhone, "Email [Input]", email);
+        await this.enterText(this.FacebookElements.InputPassword, "Password [Input]", genericPassword);
         
         return this;
     }

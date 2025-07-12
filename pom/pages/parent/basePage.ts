@@ -55,7 +55,7 @@ export abstract class BasePage {
         await this.info("Clicked '" +  elementDescription + "' element"); //Prints just into IDE console
     }
 
-    protected async enterText(locator : string, text : string, elementDescription : string = "") : Promise<void> {        
+    protected async enterText(locator : string, elementDescription : string, text : string) : Promise<void> {        
         test.info().annotations.push({ type : "Entering text into '" +  elementDescription + "' element", description : text }); //Prints into PLAYWRIGHT test reporter (but as annotation, not exactly on the corresponding step)
         await this.page.fill(locator, text);
         await this.info("Entered '" + text  + "' into '" +  elementDescription + "' element"); //Prints just into IDE console

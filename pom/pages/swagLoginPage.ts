@@ -38,8 +38,8 @@ export class SwagLoginPage extends BasePage implements IBasePage {
         //await this.page.locator(this.SwagLoginElements.InputPassword).fill(password);
 
         //WAY #2: Custom from parent class ENTER TEXT
-        await this.enterText(this.SwagLoginElements.InputUsername, username, "Username [Input]");
-        await this.enterText(this.SwagLoginElements.InputPassword, password, "Password [Input]");
+        await this.enterText(this.SwagLoginElements.InputUsername, "Username [Input]", username);
+        await this.enterText(this.SwagLoginElements.InputPassword, "Password [Input]", password);
 
         //Continue with click
         await this.click(this.SwagLoginElements.ButtonLogin, "Login [Button]");
