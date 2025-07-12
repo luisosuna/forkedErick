@@ -200,4 +200,59 @@ export abstract class BasePage {
                 break;
         }
     }
+
+    protected async verifyElementIsNotVisible(elementLocator : string, elementDescription : string, timeoutMs : number= 5000) : Promise<void>{  
+        const isDetached = await this.isDetachedState(elementLocator, elementDescription, timeoutMs);
+        const isHidden = await this.isHiddenState(elementLocator, elementDescription, timeoutMs);
+        const isVisible = await this.isVisibleState(elementLocator, elementDescription, timeoutMs);
+        CustomAsserts.assertTrue(isDetached || isHidden || !isVisible, "'" + elementLocator + "' Element should be detached or hidden");
+    }
+
+    protected async isDetachedState(elementLocator : string, elementDescription : string, timeoutMs : number= 5000) : Promise<boolean>{  
+        let isDetached = false;
+
+        try {
+            await this.page.locator(elementLocator).waitFor({ state: 'detached', timeout: timeoutMs });
+            isDetached = true;
+            TestUtilities.logToConsole("Element is detached: " + elementDescription);
+        } 
+        catch {
+            isDetached = false;
+            TestUtilities.logToConsole("Element is NOT detached: " + elementDescription);
+        }
+
+        return isDetached;
+    }
+
+    protected async isHiddenState(elementLocator : string, elementDescription : string, timeoutMs : number= 5000) : Promise<boolean>{  
+        let isHidden = false;
+
+        try {
+            await this.page.locator(elementLocator).waitFor({ state: 'hidden', timeout: timeoutMs });
+            isHidden = true;
+            TestUtilities.logToConsole("Element is hidden: " + elementDescription);
+        } 
+        catch {
+            isHidden = false;
+            TestUtilities.logToConsole("Element is NOT hidden: " + elementDescription);
+        }
+
+        return isHidden;
+    }
+
+    protected async isVisibleState(elementLocator : string, elementDescription : string, timeoutMs : number= 5000) : Promise<boolean>{  
+        let isVisible = false;
+
+        try {
+            await this.page.locator(elementLocator).waitFor({ state: 'visible', timeout: timeoutMs });
+            isVisible = true;
+            TestUtilities.logToConsole("Element is visible: " + elementDescription);
+        } 
+        catch {
+            isVisible = false;
+            TestUtilities.logToConsole("Element is NOT visible: " + elementDescription);
+        }
+
+        return isVisible;
+    }
 }

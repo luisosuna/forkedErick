@@ -22,6 +22,9 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
         return new SwagDashboardPage(page);
     }
 
+    private itemsAlreadyAdded : string[] = [];
+    private howManyItemsAlreadyAdded : number = 0;
+
     //*********************************************** INTERFACE METHODS ***********************************************
     async goTo() : Promise<void> {
         throw new Error("Method not implemented yet");
@@ -33,6 +36,8 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
     public async addProductToCart(wantedProduct : string): Promise<SwagDashboardPage> {
         
         this.methodStart("addProductToCart", wantedProduct);
+
+        await this.verifyElementIsNotVisible("fake.element", "Fake [Dummy Element]", 5);
 
         this.info("Adding to the cart the product: " + wantedProduct);
         let dynamicLocatorLabel : string = TestUtilities.replaceKey(this.SwagDashboardElements.ItemFromCatalogDescriptionCssPW, wantedProduct);
@@ -46,9 +51,17 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
         await this.verifyElementIsVisible(dynamicLocatorButton, "Add to cart [Button from " + wantedProduct + "]");
 
         let btnTextBefore = await this.getElementText(dynamicLocatorButton, "Add to cart [Button from " + wantedProduct + "]");
+
+        if(btnTextBefore === "Remove") {
+            this.info("Item was already added: " + wantedProduct);
+            this.methodEnd("addProductToCart", "Was already added: " + wantedProduct);
+            return this;
+        }
+
         CustomAsserts.assertEquals(btnTextBefore, "Add to cart", "Button text is correct before click");
 
         await this.click(dynamicLocatorButton, "Add to cart [Button from " + wantedProduct + "]");
+        this.howManyItemsAlreadyAdded++;
 
         let btnTextAfter = await this.getElementText(dynamicLocatorButton, "Add to cart [Button from " + wantedProduct + "]");
         CustomAsserts.assertEquals(btnTextAfter, "Remove", "Button text is correct after click");
@@ -60,6 +73,8 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
     public async addProductsToCart(listOfProducts : string[]): Promise<SwagDashboardPage> {
         
         const doDummyThings = false;
+
+        await this.verifyElementIsNotVisible("fake.element", "Fake [Dummy Element]", 5);
 
         if(doDummyThings)
         {
@@ -143,6 +158,42 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
         await this.verifyListIsSorted(referenceLocator, option, true); //bool for printListContents
 
         this.methodEnd("verifyCorrectProductsSorting", orderBy.toString());
+        return this;
+    }
+
+    public async goToCart() : Promise<SwagDashboardPage> {
+        this.methodStart("goToCart");
+
+        //Code
+
+        this.methodEnd("goToCart");
+        return this;
+    }
+
+    public async verifyCartHasCorrectItems() : Promise<SwagDashboardPage> {
+        this.methodStart("verifyCartHasCorrectItems");
+
+        //Code
+
+        this.methodEnd("verifyCartHasCorrectItems");
+        return this;
+    }
+
+    public async goToCheckout() : Promise<SwagDashboardPage> {
+        this.methodStart("goToCheckout");
+
+        //Code
+
+        this.methodEnd("goToCheckout");
+        return this;
+    }
+
+    public async verifyFinalPriceIsCorrect() : Promise<SwagDashboardPage> {
+        this.methodStart("verifyFinalPriceIsCorrect");
+
+        //Code
+
+        this.methodEnd("verifyFinalPriceIsCorrect");
         return this;
     }
 
