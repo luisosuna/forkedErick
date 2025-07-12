@@ -4,6 +4,7 @@
   "description": "PlayWrightErick",
   "main": "index.js",
   "scripts": {
+    "regen" : "npx playwright show-report",
     "clean:allure": "rimraf allure-results",
     "testErick": "npm run clean:allure && playwright test",
     "testErickHead": "npm run clean:allure && playwright test --headed",
