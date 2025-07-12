@@ -22,17 +22,17 @@ export abstract class BasePage {
 
     //------------------------------------ LOGGING INTERACTIONS ------------------------------------
 
-    protected async info(message : string) : Promise<void> {
+    protected info(message : string) : void {
         TestUtilities.logToConsole(message);
     }
 
-    protected async methodStart(methodName : string, additionalInfo : string = "") : Promise<void> {
+    protected methodStart(methodName : string, additionalInfo : string = "") : void {
         let hasInfo = !TestUtilities.isNullOrEmpty(additionalInfo);
         console.log("");        
         this.info(hasInfo ? "...Starting method [" + methodName + "] " + additionalInfo : "...Starting method [" + methodName + "]");
     }
 
-    protected async methodEnd(methodName : string, additionalInfo : string = "") : Promise<void> {
+    protected methodEnd(methodName : string, additionalInfo : string = "") : void {
         let hasInfo = !TestUtilities.isNullOrEmpty(additionalInfo);
         this.info(hasInfo ? "...Ending method [" + methodName + "] " + additionalInfo : "...Ending method [" + methodName + "]");
         console.log("");

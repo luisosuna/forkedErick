@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test';
+import { CustomAsserts } from '../asserts/customAsserts.ts';
 import chalk from 'chalk';
 
     /*
@@ -222,5 +223,50 @@ export class TestUtilities {
         return "?" + Object.entries(queryParams)
             .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
             .join('&');
+    }
+
+    public static getNumericValue(str : string, shouldBeNumeric = true) : number {
+        const num = parseFloat(str);
+        let isNan = isNaN(num);
+
+        if(shouldBeNumeric) CustomAsserts.assertFalse(isNan, "String should be a valid number: " + str);
+
+        if(isNan) {
+            CustomAsserts.assertFail("isNan: " + str)
+        }
+
+        return num;
+    }
+
+    public static getTextBefore(fullText, marker) {
+        const index = fullText.indexOf(marker);
+        if (index === -1) return fullText; // If marker not found, return full text
+        return fullText.substring(0, index);
+    }
+
+    public static getTextAfter(fullText, marker) {
+        if (typeof fullText !== 'string' || typeof marker !== 'string') return '';
+    
+        const index = fullText.indexOf(marker);
+        if (index === -1) return ''; // marker not found
+
+        return fullText.substring(index + marker.length);
+    }
+
+    public static getTextBetween(fullText, startText, endText, limitsShouldExist = true) {
+        const startIndex = fullText.indexOf(startText);
+        const endIndex = fullText.indexOf(endText, startIndex + startText.length);
+
+        TestUtilities.logToConsole("Getting text between '" + startText + "' (left) and '" + endText + "' (right) from string: " + fullText);
+
+        if(limitsShouldExist) {
+            CustomAsserts.assertFalse(startIndex === -1 || endIndex === -1, "Both limits (LEFT & RIGHT) should be present in text: " + fullText);
+        }
+
+        if (startIndex === -1 || endIndex === -1) {
+            return null; // or throw an error, or return empty string
+        }
+
+        return fullText.substring(startIndex + startText.length, endIndex);
     }
 }

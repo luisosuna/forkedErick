@@ -7,6 +7,7 @@ import { ProductSortingOptions } from '../../utilities/productSortingOptions';
 import { SortingOptions } from '../../utilities/sortingOptions';
 import { CustomAsserts } from '../../asserts/customAsserts';
 import proxymise from "proxymise";
+import chalk from 'chalk';
 
 export class SwagDashboardPage extends BasePage implements IBasePage {
 
@@ -24,6 +25,7 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
 
     private itemsAlreadyAdded : string[] = [];
     private howManyItemsAlreadyAdded : number = 0;
+    private expectedTotal : number = 0;
 
     //*********************************************** INTERFACE METHODS ***********************************************
     async goTo() : Promise<void> {
@@ -62,6 +64,14 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
 
         await this.click(dynamicLocatorButton, "Add to cart [Button from " + wantedProduct + "]");
         this.howManyItemsAlreadyAdded++;
+        this.itemsAlreadyAdded.push(wantedProduct);
+
+        const priceLocator : string = TestUtilities.replaceKeyName("//div[@class='inventory_item' and contains(.,'{{itemName}}')]//child::*[@class='inventory_item_price']", "itemName", wantedProduct);
+        const correspondingPriceStr : string = await this.getElementText(priceLocator, `'${wantedProduct}' price [Dynamic $ value]`);
+        const correspondingPrice : number = TestUtilities.getNumericValue(TestUtilities.getTextAfter(correspondingPriceStr, "$"));
+
+        this.info(chalk.yellow(`'${wantedProduct}' price: $${correspondingPrice}`));
+        this.expectedTotal += correspondingPrice;
 
         let btnTextAfter = await this.getElementText(dynamicLocatorButton, "Add to cart [Button from " + wantedProduct + "]");
         CustomAsserts.assertEquals(btnTextAfter, "Remove", "Button text is correct after click");
@@ -164,7 +174,9 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
     public async goToCart() : Promise<SwagDashboardPage> {
         this.methodStart("goToCart");
 
-        //Code
+        CustomAsserts.assertEquals(this.howManyItemsAlreadyAdded.toString(), await this.getElementText(".shopping_cart_badge", "Items in cart [Dynamic counter]"), "Cart items counter");
+
+        await this.click(".shopping_cart_link", "Cart [Icon]");
 
         this.methodEnd("goToCart");
         return this;
@@ -173,16 +185,29 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
     public async verifyCartHasCorrectItems() : Promise<SwagDashboardPage> {
         this.methodStart("verifyCartHasCorrectItems");
 
-        //Code
+        const itemsDisplayedInsideCart : string[] = await this.page.locator(".inventory_item_name").allTextContents();
+
+        CustomAsserts.assertEquals(this.howManyItemsAlreadyAdded, itemsDisplayedInsideCart.length, "All items displayed inside Cart");
+
+        const actualItemsFromAToZ : string[] = itemsDisplayedInsideCart.sort();
+        const expectedItemsFromAToZ : string[] = this.itemsAlreadyAdded.sort();
+
+        for(let index = 0; index < expectedItemsFromAToZ.length; index++) {
+            CustomAsserts.assertEquals(expectedItemsFromAToZ[index], actualItemsFromAToZ[index], "Item #" + (index + 1).toString());
+        }
 
         this.methodEnd("verifyCartHasCorrectItems");
         return this;
     }
 
     public async goToCheckout() : Promise<SwagDashboardPage> {
-        this.methodStart("goToCheckout");
+        this.methodStart("goToCheckout", "How many items added: " + this.howManyItemsAlreadyAdded);
 
-        //Code
+        await this.click("#checkout", "Checkout [Button]");
+        await this.enterText("#first-name", "First Name [Input]", "Erick");
+        await this.enterText("#last-name", "Last Name [Input]", "Jimenez");
+        await this.enterText("#postal-code", "ZIP [Input]", "45130");
+        await this.click("#continue", "Continue [Button]");
 
         this.methodEnd("goToCheckout");
         return this;
@@ -191,7 +216,13 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
     public async verifyFinalPriceIsCorrect() : Promise<SwagDashboardPage> {
         this.methodStart("verifyFinalPriceIsCorrect");
 
-        //Code
+        const displayedPriceBeforeCleaning : string = await this.getElementText(".summary_subtotal_label", "Final price [Dynamic Value]");
+        const displayedPriceAfterCleaning : number = TestUtilities.getNumericValue(TestUtilities.getTextAfter(displayedPriceBeforeCleaning, "$"));
+
+        this.info(`Final price: ${displayedPriceBeforeCleaning}`);
+        this.info(`Final price numeric: ${displayedPriceAfterCleaning}`);
+
+        CustomAsserts.assertEquals(this.expectedTotal, displayedPriceAfterCleaning, "Total should match with selected items prices sum");
 
         this.methodEnd("verifyFinalPriceIsCorrect");
         return this;
