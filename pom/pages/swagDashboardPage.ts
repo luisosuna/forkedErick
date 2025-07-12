@@ -7,7 +7,6 @@ import { ProductSortingOptions } from '../../utilities/productSortingOptions';
 import { SortingOptions } from '../../utilities/sortingOptions';
 import { CustomAsserts } from '../../asserts/customAsserts';
 import proxymise from "proxymise";
-import chalk from 'chalk';
 
 export class SwagDashboardPage extends BasePage implements IBasePage {
 
@@ -70,7 +69,7 @@ export class SwagDashboardPage extends BasePage implements IBasePage {
         const correspondingPriceStr : string = await this.getElementText(priceLocator, `'${wantedProduct}' price [Dynamic $ value]`);
         const correspondingPrice : number = TestUtilities.getNumericValue(TestUtilities.getTextAfter(correspondingPriceStr, "$"));
 
-        this.info(chalk.yellow(`'${wantedProduct}' price: $${correspondingPrice}`));
+        this.infoYellow(`'${wantedProduct}' price: $${correspondingPrice}`);
         this.expectedTotal += correspondingPrice;
 
         let btnTextAfter = await this.getElementText(dynamicLocatorButton, "Add to cart [Button from " + wantedProduct + "]");

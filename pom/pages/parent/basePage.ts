@@ -26,6 +26,10 @@ export abstract class BasePage {
         TestUtilities.logToConsole(message);
     }
 
+    protected infoYellow(message : string) : void {
+        TestUtilities.logToConsoleYellow(message);
+    }
+
     protected methodStart(methodName : string, additionalInfo : string = "") : void {
         let hasInfo = !TestUtilities.isNullOrEmpty(additionalInfo);
         console.log("");        

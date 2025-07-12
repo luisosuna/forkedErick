@@ -40,6 +40,11 @@ export class TestUtilities {
         console.log(chalk.bgWhite(timestamp + ": " + message));
     }
 
+    public static logToConsoleYellow(message : string) : void {
+        let timestamp : string = TestUtilities.getCurrentFormattedTimestamp();
+        console.log(chalk.bgYellowBright(timestamp + ": " + message));
+    }
+
     public static isNullOrEmpty(text : string | undefined) {
         if(text == undefined || text.length == 0 || text == "")
             return true;
