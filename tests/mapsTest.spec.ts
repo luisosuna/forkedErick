@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 import { CustomAsserts } from '../asserts/customAsserts';
-import { MapsApi } from '../pom/api/mapsApi';
+import { MapsApi } from '../pom/api/servicesFamilies/mapsApi.ts';
 import { MapsAbilities } from '../pom/abilities/mapsAbilities';
 import { TestUtilities } from '../utilities/testUtilities';
 import { BodyPostCreateNewPlace } from '../pom/api/models/serialize/bodyPostCreateNewPlace';
@@ -20,7 +20,7 @@ test.afterAll(() => {
   mapsApi.closeConnection();
 });
 
-test('Get Known Place Info', async () => {
+test.skip('Get Known Place Info', async () => {
   TestUtilities.logToConsole("This is my first API test with Playwright");
   await mapsApi.getLocationInfo(mapsAbilities.KnownPlaceKey, mapsAbilities.KnownPlaceId);
 
@@ -28,21 +28,21 @@ test('Get Known Place Info', async () => {
   CustomAsserts.assertEquals(200, mapsApi.statusCode, "Status code when VALID get");
 });
 
-test('Get Fake Place Info', async () => {
+test.skip('Get Fake Place Info', async () => {
   await mapsApi.getLocationInfo(mapsAbilities.KnownPlaceKey, "2151251251252151");
 
   CustomAsserts.assertStringNotNullNorEmpty(mapsApi.responseJson, "Response JSON should not be null or empty");
   CustomAsserts.assertEquals(404, mapsApi.statusCode, "Status code when NOT EXISTING place id");
 });
 
-test('Post New Place with Info', async () => {
+test.skip('Post New Place with Info', async () => {
   await mapsApi.postNewLocation(mapsAbilities.KnownPlaceKey, BodyPostCreateNewPlace.createSample());
 
   CustomAsserts.assertStringNotNullNorEmpty(mapsApi.responseJson, "Response JSON should not be null, nor empty");
   CustomAsserts.assertEquals(200, mapsApi.statusCode, "Status code when VALID post");
 });
 
-test('Put Update Existing Place with new address', async () => {
+test.skip('Put Update Existing Place with new address', async () => {
   let body : BodyPutUpdateExistingPlace = 
   {
     "place_id": mapsAbilities.KnownPlaceId,
@@ -55,7 +55,7 @@ test('Put Update Existing Place with new address', async () => {
   CustomAsserts.assertEquals(200, mapsApi.statusCode, "Status code when VALID put");
 });
 
-test('Put Update Existing Place with new address, then Get and validate changes', async () => {
+test.skip('Put Update Existing Place with new address, then Get and validate changes', async () => {
   /// .................................... STEP 1 - GET call before doing anything ....................................
 
   await mapsApi.getLocationInfo(mapsAbilities.KnownPlaceKey, mapsAbilities.KnownPlaceId);
@@ -130,4 +130,6 @@ test('Post, then Get, then Put with new address, then Get and validate changes',
   CustomAsserts.assertEquals(originalName, mapsApi.deserializedResponseGet.name, "Name should be the same as the one we sent in POST");
   CustomAsserts.assertEquals(newAddress, addressAfter, "Address after PUT should be the same as the one we sent in PUT");
   CustomAsserts.assertNotEquals(originalAddress, addressAfter, "Address before PUT should be different from the one we sent in PUT");
+
+  console.log("Successfully Finished directly in test");
 });

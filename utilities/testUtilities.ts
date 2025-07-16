@@ -40,6 +40,11 @@ export class TestUtilities {
         console.log(chalk.bgWhite(timestamp + ": " + message));
     }
 
+    public static logErrorToConsole(errorMessage : string) : void{
+        let timestamp = TestUtilities.getCurrentFormattedTimestamp();
+        console.error(chalk.bgRed(timestamp + ": " + errorMessage));
+    }
+
     public static logToConsoleYellow(message : string) : void {
         let timestamp : string = TestUtilities.getCurrentFormattedTimestamp();
         console.log(chalk.bgYellowBright(timestamp + ": " + message));

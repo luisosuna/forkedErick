@@ -1,18 +1,17 @@
-import { TestUtilities } from "../../utilities/testUtilities";
-import { BaseApiInteractions } from "../api/parent/baseApiInteractions";
-import { MapsAbilities } from "../abilities/mapsAbilities";
-import { BodyPostCreateNewPlace } from "../api/models/serialize/bodyPostCreateNewPlace"
-import { BodyPutUpdateExistingPlace } from "../api/models/serialize/bodyPutUpdateExistingPlace";
-import { ResponsePostCreateNewPlace } from "../api/models/deserialize/responsePostCreateNewPlace";
-import { ResponseGetExistingPlace } from "../api/models/deserialize/responseGetExistingPlace";
-import { ResponseGenericMsg } from "./models/deserialize/responseGenericMsg";
-import { CustomAsserts } from "../../asserts/customAsserts";
+import { TestUtilities } from "../../../utilities/testUtilities";
+import { BaseApiInteractions } from "../parent/baseApiInteractions";
+import { MapsAbilities } from "../../abilities/mapsAbilities";
+import { BodyPostCreateNewPlace } from "../models/serialize/bodyPostCreateNewPlace"
+import { BodyPutUpdateExistingPlace } from "../models/serialize/bodyPutUpdateExistingPlace";
+import { ResponsePostCreateNewPlace } from "../models/deserialize/responsePostCreateNewPlace";
+import { ResponseGetExistingPlace } from "../models/deserialize/responseGetExistingPlace";
+import { ResponseGenericMsg } from "../models/deserialize/responseGenericMsg";
+import { CustomAsserts } from "../../../asserts/customAsserts";
 import { z } from "zod";
 
 export class MapsApi extends BaseApiInteractions{
 
-    private mapsAbilities : MapsAbilities;
-    private defaultHeaders : Record<string, string>;
+    private mapsAbilities : MapsAbilities;    
     private readonly ADD_HEADER_KEEP_CONNECTION : boolean = false; //false by default here (When using Postman default is true)
 
     // Response objects
@@ -61,7 +60,7 @@ export class MapsApi extends BaseApiInteractions{
                 });
         
                 // Deserialize with Schema declared above
-                this.deserializedResponseGet = await this.deserializeResponse<ResponseGetExistingPlace>();
+                this.deserializedResponseGet = this.deserializeResponse<ResponseGetExistingPlace>();
         
                 CustomAsserts.assertObjectNotNull(this.deserializedResponseGet, "Deserialized Object (from response JSON) should not be null");
                 this.info("Location name: " + this.deserializedResponseGet.name);
@@ -74,7 +73,7 @@ export class MapsApi extends BaseApiInteractions{
                 });
         
                 // Deserialize with Schema declared above
-                this.deserializedResponseGenericMessage = await this.deserializeResponse<ResponseGenericMsg>();
+                this.deserializedResponseGenericMessage = this.deserializeResponse<ResponseGenericMsg>();
         
                 CustomAsserts.assertObjectNotNull(this.deserializedResponseGenericMessage, "Deserialized Object (from response JSON) should not be null");
                 CustomAsserts.assertEquals("Get operation failed, looks like place_id  doesn't exists", this.deserializedResponseGenericMessage.msg, "Error message should be as expected");
@@ -103,7 +102,7 @@ export class MapsApi extends BaseApiInteractions{
         });
 
         // Deserialize with Schema declared above
-        this.deserializedResponsePost = await this.deserializeResponse<ResponsePostCreateNewPlace>();
+        this.deserializedResponsePost = this.deserializeResponse<ResponsePostCreateNewPlace>();
 
         CustomAsserts.assertObjectNotNull(this.deserializedResponsePost, "Deserialized Object (from response JSON) should not be null");
 
@@ -125,7 +124,7 @@ export class MapsApi extends BaseApiInteractions{
         });
 
         // Deserialize with Schema declared above
-        this.deserializedResponseGenericMessage = await this.deserializeResponse<ResponseGenericMsg>();
+        this.deserializedResponseGenericMessage = this.deserializeResponse<ResponseGenericMsg>();
                 
         CustomAsserts.assertObjectNotNull(this.deserializedResponseGenericMessage, "Deserialized Object (from response JSON) should not be null");
         CustomAsserts.assertEquals("Address successfully updated", this.deserializedResponseGenericMessage.msg, "Success HTTP PUT message should be as expected");

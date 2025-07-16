@@ -1,6 +1,6 @@
-import { CustomAsserts } from "../../asserts/customAsserts";
-import { TestUtilities } from "../../utilities/testUtilities";
-import { BaseApiInteractions } from "./parent/baseApiInteractions";
+import { CustomAsserts } from "../../../asserts/customAsserts";
+import { TestUtilities } from "../../../utilities/testUtilities";
+import { BaseApiInteractions } from "../parent/baseApiInteractions";
 
 export class DummyApi extends BaseApiInteractions{
 

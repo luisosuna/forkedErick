@@ -27,6 +27,9 @@ export const configFile = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 //export default defineConfig({
 export const config: ProjectTestConfig = {
   timeout: 30000, // Global timeout for all tests in milliseconds (default is 30 seconds)
+  expect: {
+    timeout: 5000
+  },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,

@@ -1,24 +1,29 @@
-import { TestUtilities } from "../../../utilities/testUtilities";
-import { CustomAsserts } from "../../../asserts/customAsserts";
+import { HttpMethods } from "../../enums/httpMethods.ts";
+import { TestUtilities } from "../../../utilities/testUtilities.ts";
+import { CustomAsserts } from "../../../asserts/customAsserts.ts";
 import { request, APIRequestContext, APIResponse } from '@playwright/test';
 import { z } from "zod";
+import chalk from 'chalk';
 
 export abstract class BaseApiInteractions {
 
     private readonly CLOSE_CONNECTION : boolean = false; //close after each call, or close ONCE at the end of all tests using hooks    
 
+    // These 4 are NOT exposed
     protected requestContext: APIRequestContext;
     protected responseObject: APIResponse;
-    protected deserializingSchema: z.ZodObject<any>;
+    protected bearerToken: string = ""; // Used for storing Bearer token if needed
+    protected defaultHeaders: Record<string, string>;
+    protected deserializingSchema?: z.ZodType<any, z.ZodTypeDef, any>;    
 
+    // We want these 2 exposed in case we want to use them directly in tests
     public statusCode : number;
     public responseJson : any;
 
     constructor() {
-        this.init();
     }
     
-    protected async init() {
+    private async init() : Promise<void> {
         if(this.requestContext) {
             //Do nothing, already defined/instanced
         }  
@@ -27,55 +32,70 @@ export abstract class BaseApiInteractions {
         }      
     }
 
-    protected async closeConnectionInternally(fromWhere : string) {
+    private async closeConnectionInternally(fromWhere : HttpMethods) : Promise<void> {
         if(this.CLOSE_CONNECTION) {
-            this.info("Closing connection from: " + fromWhere);
+            this.info("Closing connection from HTTP call: " + fromWhere);
             await this.closeConnection();
         }        
     }
 
-    public async closeConnection() {
+    public async closeConnection() : Promise<void> {
         try {
             if(this.requestContext) {
                 await this.requestContext.dispose();
             }
         }
         catch (error) {
-            this.info("Error while closing connection: " + error);
+            this.error("Error while closing connection: " + error);
         }
     }
 
-    protected async assignReturnValues() {
-        this.statusCode = this.responseObject.status();
+    protected async assignReturnValues() : Promise<void>{
+        this.statusCode = await this.responseObject.status();
         this.responseJson = await this.responseObject.json();
     }
 
-    protected async info(message : string) : Promise<void> {
+    protected info(message : string) : void {
         TestUtilities.logToConsole(message);
     }
 
-    protected async printResponseDetails() : Promise<void> {
+    protected error(errorMessage : string) : void {
+        TestUtilities.logErrorToConsole(errorMessage);
+    }
+
+    protected newEmptyLine() : void {
+        console.log("");
+    }
+
+    protected printResponseDetails() : void {
         this.info("Response status: " + this.statusCode);
         this.info("Response body: " + JSON.stringify(this.responseJson));
     }
 
-    protected async executeGetRequest(url: string, headers?: Record<string, string>): Promise<void> {
-        this.info("GET URL: " + url);
+    private printRequestURL(url : string, method : HttpMethods) : void {
+        this.newEmptyLine();
+        this.info(chalk.bgCyan(`Executing '${method}' REST request with URL:`));
+        console.log(chalk.bgCyan(url));
+        this.newEmptyLine();
+    } 
 
-        await this.printHeaders(headers);
+    protected async executeGetRequest(url: string, headers?: Record<string, string>): Promise<void> {
+        this.printRequestURL(url, HttpMethods.GET);
+
+        this.printHeaders(headers);
 
         await this.init();
         this.responseObject = await this.requestContext.get(url, { headers });
 
         await this.assignReturnValues();
-        await this.closeConnectionInternally("GET");
+        await this.closeConnectionInternally(HttpMethods.GET);
     }
 
     protected async executePostRequest(url: string, body: any, headers?: Record<string, string>): Promise<void> {
-        this.info("POST URL: " + url);
+        this.printRequestURL(url, HttpMethods.POST);
         this.info("POST Body: " + JSON.stringify(body));
 
-        await this.printHeaders(headers);
+        this.printHeaders(headers);
 
         await this.init();
         this.responseObject = await this.requestContext.post(url, { 
@@ -84,14 +104,29 @@ export abstract class BaseApiInteractions {
         });
 
         await this.assignReturnValues();
-        await this.closeConnectionInternally("POST");
+        await this.closeConnectionInternally(HttpMethods.POST);
+    }
+
+    protected async executePostRequestFormURLEncoded(url: string, paramsInPairs: any, headers?: Record<string, string>): Promise<void> {
+        this.printRequestURL(url, HttpMethods.POST);
+
+        this.printHeaders(headers);
+
+        await this.init();
+        this.responseObject = await this.requestContext.post(url, { 
+            headers,
+            form: paramsInPairs
+        });
+
+        await this.assignReturnValues();
+        await this.closeConnectionInternally(HttpMethods.POST);
     }
 
     protected async executePutRequest(url: string, body: any, headers?: Record<string, string>): Promise<void> {
-        this.info("PUT URL: " + url);
+        this.printRequestURL(url, HttpMethods.PUT);
         this.info("PUT Body: " + JSON.stringify(body));
 
-        await this.printHeaders(headers);
+        this.printHeaders(headers);
 
         await this.init();
         this.responseObject = await this.requestContext.put(url, { 
@@ -100,39 +135,56 @@ export abstract class BaseApiInteractions {
         });
 
         await this.assignReturnValues();
-        await this.closeConnectionInternally("PUT");
+        await this.closeConnectionInternally(HttpMethods.PUT);
+    }
+
+    protected async executePatchRequest(url: string, body: any, headers?: Record<string, string>): Promise<void> {
+        this.printRequestURL(url, HttpMethods.PATCH);
+        this.info("PATCH Body: " + JSON.stringify(body));
+
+        this.printHeaders(headers);
+
+        await this.init();
+        this.responseObject = await this.requestContext.patch(url, { 
+            headers,
+            data: body 
+        });
+
+        await this.assignReturnValues();
+        await this.closeConnectionInternally(HttpMethods.PATCH);
     }
 
     protected async executeDeleteRequest(url: string, headers?: Record<string, string>): Promise<void> {
-        this.info("DELETE URL: " + url);
+        this.printRequestURL(url, HttpMethods.DELETE);
 
-        await this.printHeaders(headers);
+        this.printHeaders(headers);
 
         await this.init();
         this.responseObject = await this.requestContext.delete(url, { headers });;
 
         await this.assignReturnValues();
-        await this.closeConnectionInternally("DELETE");
+        await this.closeConnectionInternally(HttpMethods.DELETE);
     }
 
-    protected async deserializeResponseWithoutErrorChecking<T>(): Promise<T> {
-        this.info("Standardly deserializing response to the specified type.");
+    protected deserializeResponseWithoutSchema<T>(): T { // Way #1 - without schema checking (SIMPLER)
+        this.info("Standardly deserializing response to the specified Class model.");
         const responseBody = this.responseJson;
         return responseBody as T;
     }
 
-    //protected async deserializeResponse<T>(schema?: z.ZodSchema<T>): Promise<T> {
-    protected async deserializeResponse<T>(): Promise<T> {
-        this.info("Safely deserializing response to the specified type.");
+    protected deserializeResponse<T>(): T { // Way #2 - with schema checking (SAFER & MORE COMPLEX)
+        return this.deserializeResponseWithExplicitSchema<T>(this.deserializingSchema as z.ZodType<T, z.ZodTypeDef, any>);
+    }
 
-        var localSchema = this.deserializingSchema;
+    protected deserializeResponseWithExplicitSchema<T>(schema?: z.ZodSchema<T>): T { // Way #2 - with schema checking (SAFER & MORE COMPLEX)
+        this.info("Safely deserializing response to the specified Zod Schema.");
 
-        if (!localSchema) {
+        if (!schema) {
             throw new Error("Schema is required for safe deserialization.");
         }
 
         try {
-            const result = localSchema.safeParse(this.responseJson);
+            const result = schema.safeParse(this.responseJson);
             CustomAsserts.assertTruthy(result.success, "Response JSON should be valid according to schema");
 
             let parsedObject = result.data;
@@ -144,7 +196,7 @@ export abstract class BaseApiInteractions {
         }        
     }
 
-    private async printHeaders(headers?: Record<string, string>): Promise<void> {
+    private printHeaders(headers?: Record<string, string>): void {
         if (headers && Object.keys(headers).length > 0) {
             this.info("Headers:");
             for (const [key, value] of Object.entries(headers)) {
