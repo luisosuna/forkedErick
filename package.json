@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "regen": "npx playwright show-report",
+    "update": "npm install @playwright/test@latest",
+    "npmUpdate": "npm install -g npm@latest",
+    "npmClean": "npm cache clean --force",
     "clean:allure": "rimraf allure-results",
     "testErick": "npm run clean:allure && playwright test",
     "testErickHead": "npm run clean:allure && playwright test --headed",
