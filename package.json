@@ -8,18 +8,15 @@
     "update": "npm install @playwright/test@latest",
     "npmUpdate": "npm install -g npm@latest",
     "npmClean": "npm cache clean --force",
-    "clean:allure": "rimraf allure-results",
-    "testErick": "npm run clean:allure && playwright test",
-    "testErickHead": "npm run clean:allure && playwright test --headed",
-    "testFacebook": "npm run clean:allure && npx playwright test facebookTest.spec.ts",
-    "testSwag": "npm run clean:allure && npx playwright test swagTest.spec.ts",
-    "testSwagSimpler": "npm run clean:allure && npx playwright test swagTestSimpler.spec.ts",
-    "testMaps": "npm run clean:allure && npx playwright test mapsTest.spec.ts",
-    "testMapsService": "npm run clean:allure && npx playwright test mapsServiceTest.spec.ts",
-    "testMapsSequential": "npm run clean:allure && npx playwright test mapsTestSequential.spec.ts",
-    "testUnitTest": "npm run clean:allure && npx playwright test unitTest.spec.ts",
-    "reportGenerate": "npx allure generate ./allure-results",
-    "reportView": "npx allure open"
+    "testErick": "playwright test",
+    "testErickHead": "playwright test --headed",
+    "testFacebook": "npx playwright test facebookTest.spec.ts",
+    "testSwag": "npx playwright test swagTest.spec.ts",
+    "testSwagSimpler": "npx playwright test swagTestSimpler.spec.ts",
+    "testMaps": "npx playwright test mapsTest.spec.ts",
+    "testMapsService": "npx playwright test mapsServiceTest.spec.ts",
+    "testMapsSequential": "npx playwright test mapsTestSequential.spec.ts",
+    "testUnitTest": "npx playwright test unitTest.spec.ts"
   },
   "keywords": [],
   "author": "",
@@ -27,8 +24,7 @@
   "devDependencies": {
     "@playwright/test": "^1.54.1",
     "@types/node": "^22.7.0",
-    "playwright": "^1.54.1",
-    "rimraf": "^6.0.1"
+    "playwright": "^1.54.1"
   },
   "dependencies": {
     "chalk": "^5.4.1",
