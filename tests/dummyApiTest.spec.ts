@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
-import { CustomAsserts } from '../asserts/customAsserts';
-import { DummyApi } from '../pom/api/dummyApi';
+import { CustomAsserts } from '../asserts/customAsserts.ts';
+import { DummyApi } from '../pom/api/servicesFamilies/dummyApi.ts';
 
 var dummyApi: DummyApi;
 
