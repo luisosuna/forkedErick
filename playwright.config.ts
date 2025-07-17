@@ -64,7 +64,7 @@ export const config: ProjectTestConfig = {
     myPassword: configFile.myCredentials.myPassword,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on', // Options: 'on', 'off', 'retain-on-failure', 'on-first-retry'
+    trace: 'retain-on-failure', // Options: 'on', 'off', 'retain-on-failure', 'on-first-retry'
   },
 
   /* Configure projects for major browsers */
